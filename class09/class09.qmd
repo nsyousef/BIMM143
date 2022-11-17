@@ -1,0 +1,229 @@
+---
+title: "Class 09: Structural Bioinformatics 1"
+author: "Nicholas Yousefi"
+format: html
+---
+
+## The RCSB Protein Data Bank (PDB)
+
+Protein structures by X-ray crystallography dominate this database. We are skipping Q1-3 as the website was too slow for us (although I was able to do them later, when the website was working again).
+
+```{r}
+des <- read.csv("Data Export Summary.csv", row.names=1)
+head(des)
+```
+
+> Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+$$\frac{169794 + 12835}{196779} \times 100 = 92.8\%$$ 
+
+> Q2: What proportion of structures in the PDB are protein?
+
+$$\frac{150342}{196779} \times 100 = 87.0\%$$
+
+> Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+There are 4703 HIV-1 structures in the PDB.
+
+> Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+This experiment is not high enough resolution to show the hydrogen atoms. The hydrogen atoms are way too small to show up. We can only see the oxygen atom.
+
+> Q5: There is a critical "conserved" water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have
+
+The water molecule is H~2~O 308. Here, it is shown bound to the protein and ligand:
+
+![Figure 1: H~2~O 308, in the binding site of 1HSG](1HSG_water.png)
+
+> Q6. Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain (we recommend "Ball & Stick" for these side-chains). Add this figure to your Quarto document.
+
+![Figure 2: 1HSG protein with ASP 25 shown in each side chain.](1HSG.png)
+
+> Discussion Topic: Can you think of a way in which indinavir, or even larger ligands and substrates, could enter the binding site?
+
+Larger ligands like indinavir could have a group that hydrogen bonds where H~2~O 308 normally binds when MK1 is in the molecule.
+
+## 3. Introduction to Bio3D in R
+
+Bio3D is an R package for structural bioinformatics. To use it, we need to call it up with the `library()` function (just like any package).
+
+```{r}
+library(bio3d)
+```
+
+To read a PDB file we can use `read.pdb()`.
+
+```{r}
+pdb <- read.pdb("1hsg")
+pdb
+```
+
+> Q7: How many amino acid residues are there in this pdb object?
+
+198 amino acid residues are in this PDB object.
+
+> Q8: Name one of the two non-protein residues?
+
+MK1
+
+> Q9: How many protein chains are in this structure?
+
+2 chains
+
+Side note: you can figure out what attribute an object has using the `attributes()` function:
+
+```{r}
+attributes(pdb)
+```
+
+The ATOM records of a PDB file are stored in `pdb$atom`
+
+```{r}
+head(pdb$atom)
+```
+
+Let's do a Normal mode analysis on a new PDB structure: Adenylate Kinase.
+
+```{r}
+adk <- read.pdb("6s36")
+adk
+```
+
+Normal Mode Analysis is used to predict protein flexibility and potential functinal motions, such as conformational changes.
+
+```{r}
+# This is a flexibility prediction
+m <- nma(adk)
+plot(m)
+```
+
+To view an animation showing the predicted protein motions, we can create a "trajectory" using `mktrj()`.
+
+```{r}
+mktrj(m, file="adk_m7.pdb")
+```
+
+This file can be loaded into Mol* and the animation can be played.
+
+# Comparative Analysis of Adenylate kinase (ADK)
+
+> Q10. Which of the packages above is found only on BioConductor and not CRAN? 
+
+MSA
+
+> Q11. Which of the above packages is not found on BioConductor or CRAN?
+
+bio3d-view
+
+> Q12. True or False? Functions from the devtools package can be used to install packages from GitHub and BitBucket?
+
+`TRUE`
+
+We will start our analysis with a single PDB id (code form the PDB database): 1AKE
+
+First, we get its primary sequence:
+
+```{r}
+aa <- get.seq("1ake_a")
+aa
+```
+
+> Q13. How many amino acids are in this sequence, i.e. how long is this sequence? 
+
+214 amino acids
+
+```{r}
+# Blast or hmmer search 
+#b <- blast.pdb(aa)
+```
+
+```{r}
+#hits <- plot(b)
+# List out some 'top hits'
+#head(hits$pdb.id)
+```
+
+Alternatively, if BLAST doesn't work, you can use these:
+
+```{r}
+hits <- NULL
+hits$pdb.id <- c('1AKE_A','6S36_A','6RZE_A','3HPR_A','1E4V_A','5EJE_A','1E4Y_A','3X2S_A','6HAP_A','6HAM_A','4K46_A','3GMT_A','4PZL_A')
+```
+
+Download all these PDB files from the online database...
+
+```{r}
+# Download related PDB files
+files <- get.pdb(hits$pdb.id, path="pdbs", split=TRUE, gzip=TRUE)
+```
+
+We downloaded a bunch of structures from the PDB database. Now, let's align them.
+
+```{r}
+pdbs <- pdbaln(files, fit=T, exefile="msa")
+pdbs
+```
+
+We will now plot the sequence alignment. Gray areas are aligned residues and white areas are areas that are not aligned. The red bar shows sequence conservation.
+
+```{r}
+ids <- basename.pdb(pdbs$id) # create a vector of the PDB codes to use for the axis of our figure
+plot(pdbs, labels=ids) # plot sequence alignment
+```
+We can use `pdb.annotate()` to match each structure to its source species.
+
+```{r}
+anno <- pdb.annotate(ids)
+unique(anno$source)
+anno
+```
+
+# Jump to PCA
+
+```{r}
+pc.xray <- pca(pdbs)
+plot(pc.xray)
+```
+We can use the `rmsd()` function to calculate the pairwise RMSD (root mean square deviation) values. This lets us do clustering analysis based on the pairwise structural deviation.
+
+```{r}
+rd <- rmsd(pdbs)
+hc.rd <- hclust(dist(rd))
+grps.rd <- cutree(hc.rd, k=3)
+
+plot(pc.xray, 1:2, col="grey50", bg=grps.rd, pch=21, cex=1)
+```
+
+Each dot in this plot represents a single PDB structure. 
+
+# Further Visualization
+
+We can visualize along PC1 to see major structural variations in the protein:
+
+```{r}
+# Visualize first principal component
+pc1 <- mktrj(pc.xray, pc=1, file="pc_1.pdb")
+```
+
+We can open this file in Mole\* to see the animation.
+
+We can also plot our PCA results with ggplot:
+
+```{r}
+library(ggplot2)
+library(ggrepel)
+
+df <- data.frame(PC1=pc.xray$z[,1],
+                 PC2=pc.xray$z[,2],
+                 col=as.factor(grps.rd),
+                 ids=ids)
+
+p <- ggplot(df) +
+  aes(PC1, PC2, col=col, label=ids) +
+  geom_point(size=2) +
+  geom_text_repel(max.overlaps = 20) +
+  theme(legend.position="none")
+
+p
+```
+

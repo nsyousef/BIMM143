@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nicholas Yousefi">
+
+<title>Class 09: Structural Bioinformatics 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="class09_files/libs/clipboard/clipboard.min.js"></script>
+<script src="class09_files/libs/quarto-html/quarto.js"></script>
+<script src="class09_files/libs/quarto-html/popper.min.js"></script>
+<script src="class09_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="class09_files/libs/quarto-html/anchor.min.js"></script>
+<link href="class09_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="class09_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="class09_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="class09_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="class09_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Class 09: Structural Bioinformatics 1</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nicholas Yousefi </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="the-rcsb-protein-data-bank-pdb" class="level2">
+<h2 class="anchored" data-anchor-id="the-rcsb-protein-data-bank-pdb">The RCSB Protein Data Bank (PDB)</h2>
+<p>Protein structures by X-ray crystallography dominate this database. We are skipping Q1-3 as the website was too slow for us (although I was able to do them later, when the website was working again).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>des <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Data Export Summary.csv"</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(des)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                          X.ray    NMR    EM Multiple.methods Neutron Other
+Protein (only)          150,342 12,053 8,534              188      72    32
+Protein/Oligosaccharide   8,866     32 1,540                6       0     0
+Protein/NA                7,911    278 2,681                6       0     0
+Nucleic acid (only)       2,510  1,425    74               13       2     1
+Other                       154     31     6                0       0     0
+Oligosaccharide (only)       11      6     0                1       0     4
+                          Total
+Protein (only)          171,221
+Protein/Oligosaccharide  10,444
+Protein/NA               10,876
+Nucleic acid (only)       4,025
+Other                       191
+Oligosaccharide (only)       22</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.</p>
+</blockquote>
+<p><span class="math display">\[\frac{169794 + 12835}{196779} \times 100 = 92.8\%\]</span></p>
+<blockquote class="blockquote">
+<p>Q2: What proportion of structures in the PDB are protein?</p>
+</blockquote>
+<p><span class="math display">\[\frac{150342}{196779} \times 100 = 87.0\%\]</span></p>
+<blockquote class="blockquote">
+<p>Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?</p>
+</blockquote>
+<p>There are 4703 HIV-1 structures in the PDB.</p>
+<blockquote class="blockquote">
+<p>Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?</p>
+</blockquote>
+<p>This experiment is not high enough resolution to show the hydrogen atoms. The hydrogen atoms are way too small to show up. We can only see the oxygen atom.</p>
+<blockquote class="blockquote">
+<p>Q5: There is a critical “conserved” water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have</p>
+</blockquote>
+<p>The water molecule is H<sub>2</sub>O 308. Here, it is shown bound to the protein and ligand:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="1HSG_water.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 1: H<sub>2</sub>O 308, in the binding site of 1HSG</figcaption><p></p>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>Q6. Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain (we recommend “Ball &amp; Stick” for these side-chains). Add this figure to your Quarto document.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="1HSG.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure 2: 1HSG protein with ASP 25 shown in each side chain.</figcaption><p></p>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>Discussion Topic: Can you think of a way in which indinavir, or even larger ligands and substrates, could enter the binding site?</p>
+</blockquote>
+<p>Larger ligands like indinavir could have a group that hydrogen bonds where H<sub>2</sub>O 308 normally binds when MK1 is in the molecule.</p>
+</section>
+<section id="introduction-to-bio3d-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-bio3d-in-r">3. Introduction to Bio3D in R</h2>
+<p>Bio3D is an R package for structural bioinformatics. To use it, we need to call it up with the <code>library()</code> function (just like any package).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bio3d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To read a PDB file we can use <code>read.pdb()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pdb <span class="ot">&lt;-</span> <span class="fu">read.pdb</span>(<span class="st">"1hsg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Note: Accessing on-line PDB file</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Call:  read.pdb(file = "1hsg")
+
+   Total Models#: 1
+     Total Atoms#: 1686,  XYZs#: 5058  Chains#: 2  (values: A B)
+
+     Protein Atoms#: 1514  (residues/Calpha atoms#: 198)
+     Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+
+     Non-protein/nucleic Atoms#: 172  (residues: 128)
+     Non-protein/nucleic resid values: [ HOH (127), MK1 (1) ]
+
+   Protein sequence:
+      PQITLWQRPLVTIKIGGQLKEALLDTGADDTVLEEMSLPGRWKPKMIGGIGGFIKVRQYD
+      QILIEICGHKAIGTVLVGPTPVNIIGRNLLTQIGCTLNFPQITLWQRPLVTIKIGGQLKE
+      ALLDTGADDTVLEEMSLPGRWKPKMIGGIGGFIKVRQYDQILIEICGHKAIGTVLVGPTP
+      VNIIGRNLLTQIGCTLNF
+
++ attr: atom, xyz, seqres, helix, sheet,
+        calpha, remark, call</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Q7: How many amino acid residues are there in this pdb object?</p>
+</blockquote>
+<p>198 amino acid residues are in this PDB object.</p>
+<blockquote class="blockquote">
+<p>Q8: Name one of the two non-protein residues?</p>
+</blockquote>
+<p>MK1</p>
+<blockquote class="blockquote">
+<p>Q9: How many protein chains are in this structure?</p>
+</blockquote>
+<p>2 chains</p>
+<p>Side note: you can figure out what attribute an object has using the <code>attributes()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(pdb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$names
+[1] "atom"   "xyz"    "seqres" "helix"  "sheet"  "calpha" "remark" "call"  
+
+$class
+[1] "pdb" "sse"</code></pre>
+</div>
+</div>
+<p>The ATOM records of a PDB file are stored in <code>pdb$atom</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pdb<span class="sc">$</span>atom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  type eleno elety  alt resid chain resno insert      x      y     z o     b
+1 ATOM     1     N &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 29.361 39.686 5.862 1 38.10
+2 ATOM     2    CA &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 30.307 38.663 5.319 1 40.62
+3 ATOM     3     C &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 29.760 38.071 4.022 1 42.64
+4 ATOM     4     O &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 28.600 38.302 3.676 1 43.40
+5 ATOM     5    CB &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 30.508 37.541 6.342 1 37.87
+6 ATOM     6    CG &lt;NA&gt;   PRO     A     1   &lt;NA&gt; 29.296 37.591 7.162 1 38.40
+  segid elesy charge
+1  &lt;NA&gt;     N   &lt;NA&gt;
+2  &lt;NA&gt;     C   &lt;NA&gt;
+3  &lt;NA&gt;     C   &lt;NA&gt;
+4  &lt;NA&gt;     O   &lt;NA&gt;
+5  &lt;NA&gt;     C   &lt;NA&gt;
+6  &lt;NA&gt;     C   &lt;NA&gt;</code></pre>
+</div>
+</div>
+<p>Let’s do a Normal mode analysis on a new PDB structure: Adenylate Kinase.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adk <span class="ot">&lt;-</span> <span class="fu">read.pdb</span>(<span class="st">"6s36"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Note: Accessing on-line PDB file
+   PDB has ALT records, taking A only, rm.alt=TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Call:  read.pdb(file = "6s36")
+
+   Total Models#: 1
+     Total Atoms#: 1898,  XYZs#: 5694  Chains#: 1  (values: A)
+
+     Protein Atoms#: 1654  (residues/Calpha atoms#: 214)
+     Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+
+     Non-protein/nucleic Atoms#: 244  (residues: 244)
+     Non-protein/nucleic resid values: [ CL (3), HOH (238), MG (2), NA (1) ]
+
+   Protein sequence:
+      MRIILLGAPGAGKGTQAQFIMEKYGIPQISTGDMLRAAVKSGSELGKQAKDIMDAGKLVT
+      DELVIALVKERIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFDVPDELIVDKI
+      VGRRVHAPSGRVYHVKFNPPKVEGKDDVTGEELTTRKDDQEETVRKRLVEYHQMTAPLIG
+      YYSKEAEAGNTKYAKVDGTKPVAEVRADLEKILG
+
++ attr: atom, xyz, seqres, helix, sheet,
+        calpha, remark, call</code></pre>
+</div>
+</div>
+<p>Normal Mode Analysis is used to predict protein flexibility and potential functinal motions, such as conformational changes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a flexibility prediction</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nma</span>(adk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Building Hessian...        Done in 0.037 seconds.
+ Diagonalizing Hessian...   Done in 0.407 seconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="class09_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To view an animation showing the predicted protein motions, we can create a “trajectory” using <code>mktrj()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mktrj</span>(m, <span class="at">file=</span><span class="st">"adk_m7.pdb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This file can be loaded into Mol* and the animation can be played.</p>
+</section>
+<section id="comparative-analysis-of-adenylate-kinase-adk" class="level1">
+<h1>Comparative Analysis of Adenylate kinase (ADK)</h1>
+<blockquote class="blockquote">
+<p>Q10. Which of the packages above is found only on BioConductor and not CRAN?</p>
+</blockquote>
+<p>MSA</p>
+<blockquote class="blockquote">
+<p>Q11. Which of the above packages is not found on BioConductor or CRAN?</p>
+</blockquote>
+<p>bio3d-view</p>
+<blockquote class="blockquote">
+<p>Q12. True or False? Functions from the devtools package can be used to install packages from GitHub and BitBucket?</p>
+</blockquote>
+<p><code>TRUE</code></p>
+<p>We will start our analysis with a single PDB id (code form the PDB database): 1AKE</p>
+<p>First, we get its primary sequence:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>aa <span class="ot">&lt;-</span> <span class="fu">get.seq</span>(<span class="st">"1ake_a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.seq("1ake_a"): Removing existing file: seqs.fasta</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fetching... Please wait. Done.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>aa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             1        .         .         .         .         .         60 
+pdb|1AKE|A   MRIILLGAPGAGKGTQAQFIMEKYGIPQISTGDMLRAAVKSGSELGKQAKDIMDAGKLVT
+             1        .         .         .         .         .         60 
+
+            61        .         .         .         .         .         120 
+pdb|1AKE|A   DELVIALVKERIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFDVPDELIVDRI
+            61        .         .         .         .         .         120 
+
+           121        .         .         .         .         .         180 
+pdb|1AKE|A   VGRRVHAPSGRVYHVKFNPPKVEGKDDVTGEELTTRKDDQEETVRKRLVEYHQMTAPLIG
+           121        .         .         .         .         .         180 
+
+           181        .         .         .   214 
+pdb|1AKE|A   YYSKEAEAGNTKYAKVDGTKPVAEVRADLEKILG
+           181        .         .         .   214 
+
+Call:
+  read.fasta(file = outfile)
+
+Class:
+  fasta
+
+Alignment dimensions:
+  1 sequence rows; 214 position columns (214 non-gap, 0 gap) 
+
++ attr: id, ali, call</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Q13. How many amino acids are in this sequence, i.e.&nbsp;how long is this sequence?</p>
+</blockquote>
+<p>214 amino acids</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Blast or hmmer search </span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#b &lt;- blast.pdb(aa)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hits &lt;- plot(b)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># List out some 'top hits'</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#head(hits$pdb.id)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternatively, if BLAST doesn’t work, you can use these:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hits <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>hits<span class="sc">$</span>pdb.id <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'1AKE_A'</span>,<span class="st">'6S36_A'</span>,<span class="st">'6RZE_A'</span>,<span class="st">'3HPR_A'</span>,<span class="st">'1E4V_A'</span>,<span class="st">'5EJE_A'</span>,<span class="st">'1E4Y_A'</span>,<span class="st">'3X2S_A'</span>,<span class="st">'6HAP_A'</span>,<span class="st">'6HAM_A'</span>,<span class="st">'4K46_A'</span>,<span class="st">'3GMT_A'</span>,<span class="st">'4PZL_A'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Download all these PDB files from the online database…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download related PDB files</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">get.pdb</span>(hits<span class="sc">$</span>pdb.id, <span class="at">path=</span><span class="st">"pdbs"</span>, <span class="at">split=</span><span class="cn">TRUE</span>, <span class="at">gzip=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+1AKE.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+6S36.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+6RZE.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+3HPR.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+1E4V.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+5EJE.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+1E4Y.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+3X2S.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+6HAP.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+6HAM.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+4K46.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+3GMT.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get.pdb(hits$pdb.id, path = "pdbs", split = TRUE, gzip = TRUE): pdbs/
+4PZL.pdb.gz exists. Skipping download</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+</div>
+<p>We downloaded a bunch of structures from the PDB database. Now, let’s align them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pdbs <span class="ot">&lt;-</span> <span class="fu">pdbaln</span>(files, <span class="at">fit=</span>T, <span class="at">exefile=</span><span class="st">"msa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading PDB files:
+pdbs/split_chain/1AKE_A.pdb
+pdbs/split_chain/6S36_A.pdb
+pdbs/split_chain/6RZE_A.pdb
+pdbs/split_chain/3HPR_A.pdb
+pdbs/split_chain/1E4V_A.pdb
+pdbs/split_chain/5EJE_A.pdb
+pdbs/split_chain/1E4Y_A.pdb
+pdbs/split_chain/3X2S_A.pdb
+pdbs/split_chain/6HAP_A.pdb
+pdbs/split_chain/6HAM_A.pdb
+pdbs/split_chain/4K46_A.pdb
+pdbs/split_chain/3GMT_A.pdb
+pdbs/split_chain/4PZL_A.pdb
+   PDB has ALT records, taking A only, rm.alt=TRUE
+.   PDB has ALT records, taking A only, rm.alt=TRUE
+.   PDB has ALT records, taking A only, rm.alt=TRUE
+.   PDB has ALT records, taking A only, rm.alt=TRUE
+..   PDB has ALT records, taking A only, rm.alt=TRUE
+....   PDB has ALT records, taking A only, rm.alt=TRUE
+.   PDB has ALT records, taking A only, rm.alt=TRUE
+...
+
+Extracting sequences
+
+pdb/seq: 1   name: pdbs/split_chain/1AKE_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 2   name: pdbs/split_chain/6S36_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 3   name: pdbs/split_chain/6RZE_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 4   name: pdbs/split_chain/3HPR_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 5   name: pdbs/split_chain/1E4V_A.pdb 
+pdb/seq: 6   name: pdbs/split_chain/5EJE_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 7   name: pdbs/split_chain/1E4Y_A.pdb 
+pdb/seq: 8   name: pdbs/split_chain/3X2S_A.pdb 
+pdb/seq: 9   name: pdbs/split_chain/6HAP_A.pdb 
+pdb/seq: 10   name: pdbs/split_chain/6HAM_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 11   name: pdbs/split_chain/4K46_A.pdb 
+   PDB has ALT records, taking A only, rm.alt=TRUE
+pdb/seq: 12   name: pdbs/split_chain/3GMT_A.pdb 
+pdb/seq: 13   name: pdbs/split_chain/4PZL_A.pdb </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pdbs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                1        .         .         .         40 
+[Truncated_Name:1]1AKE_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:2]6S36_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:3]6RZE_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:4]3HPR_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:5]1E4V_A.pdb    ----------MRIILLGAPVAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:6]5EJE_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:7]1E4Y_A.pdb    ----------MRIILLGALVAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:8]3X2S_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:9]6HAP_A.pdb    ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:10]6HAM_A.pdb   ----------MRIILLGAPGAGKGTQAQFIMEKYGIPQIS
+[Truncated_Name:11]4K46_A.pdb   ----------MRIILLGAPGAGKGTQAQFIMAKFGIPQIS
+[Truncated_Name:12]3GMT_A.pdb   ----------MRLILLGAPGAGKGTQANFIKEKFGIPQIS
+[Truncated_Name:13]4PZL_A.pdb   TENLYFQSNAMRIILLGAPGAGKGTQAKIIEQKYNIAHIS
+                                          **^*****  *******  *  *^ *  ** 
+                                1        .         .         .         40 
+
+                               41        .         .         .         80 
+[Truncated_Name:1]1AKE_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:2]6S36_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:3]6RZE_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:4]3HPR_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:5]1E4V_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:6]5EJE_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDACKLVTDELVIALVKE
+[Truncated_Name:7]1E4Y_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVKE
+[Truncated_Name:8]3X2S_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDCGKLVTDELVIALVKE
+[Truncated_Name:9]6HAP_A.pdb    TGDMLRAAVKSGSELGKQAKDIMDAGKLVTDELVIALVRE
+[Truncated_Name:10]6HAM_A.pdb   TGDMLRAAIKSGSELGKQAKDIMDAGKLVTDEIIIALVKE
+[Truncated_Name:11]4K46_A.pdb   TGDMLRAAIKAGTELGKQAKSVIDAGQLVSDDIILGLVKE
+[Truncated_Name:12]3GMT_A.pdb   TGDMLRAAVKAGTPLGVEAKTYMDEGKLVPDSLIIGLVKE
+[Truncated_Name:13]4PZL_A.pdb   TGDMIRETIKSGSALGQELKKVLDAGELVSDEFIIKIVKD
+                                ****^*  ^* *^ **   *  ^*   ** *  ^^ ^*^^ 
+                               41        .         .         .         80 
+
+                               81        .         .         .         120 
+[Truncated_Name:1]1AKE_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:2]6S36_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:3]6RZE_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:4]3HPR_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:5]1E4V_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:6]5EJE_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:7]1E4Y_A.pdb    RIAQEDCRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:8]3X2S_A.pdb    RIAQEDSRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:9]6HAP_A.pdb    RICQEDSRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:10]6HAM_A.pdb   RICQEDSRNGFLLDGFPRTIPQADAMKEAGINVDYVLEFD
+[Truncated_Name:11]4K46_A.pdb   RIAQDDCAKGFLLDGFPRTIPQADGLKEVGVVVDYVIEFD
+[Truncated_Name:12]3GMT_A.pdb   RLKEADCANGYLFDGFPRTIAQADAMKEAGVAIDYVLEID
+[Truncated_Name:13]4PZL_A.pdb   RISKNDCNNGFLLDGVPRTIPQAQELDKLGVNIDYIVEVD
+                                *^   *   *^* ** **** **  ^   *^ ^**^^* * 
+                               81        .         .         .         120 
+
+                              121        .         .         .         160 
+[Truncated_Name:1]1AKE_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:2]6S36_A.pdb    VPDELIVDKIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:3]6RZE_A.pdb    VPDELIVDAIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:4]3HPR_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDGTG
+[Truncated_Name:5]1E4V_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:6]5EJE_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:7]1E4Y_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:8]3X2S_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:9]6HAP_A.pdb    VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:10]6HAM_A.pdb   VPDELIVDRIVGRRVHAPSGRVYHVKFNPPKVEGKDDVTG
+[Truncated_Name:11]4K46_A.pdb   VADSVIVERMAGRRAHLASGRTYHNVYNPPKVEGKDDVTG
+[Truncated_Name:12]3GMT_A.pdb   VPFSEIIERMSGRRTHPASGRTYHVKFNPPKVEGKDDVTG
+[Truncated_Name:13]4PZL_A.pdb   VADNLLIERITGRRIHPASGRTYHTKFNPPKVADKDDVTG
+                                *    ^^^ ^ *** *  *** **  ^*****  *** ** 
+                              121        .         .         .         160 
+
+                              161        .         .         .         200 
+[Truncated_Name:1]1AKE_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:2]6S36_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:3]6RZE_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:4]3HPR_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:5]1E4V_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:6]5EJE_A.pdb    EELTTRKDDQEECVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:7]1E4Y_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:8]3X2S_A.pdb    EELTTRKDDQEETVRKRLCEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:9]6HAP_A.pdb    EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:10]6HAM_A.pdb   EELTTRKDDQEETVRKRLVEYHQMTAPLIGYYSKEAEAGN
+[Truncated_Name:11]4K46_A.pdb   EDLVIREDDKEETVLARLGVYHNQTAPLIAYYGKEAEAGN
+[Truncated_Name:12]3GMT_A.pdb   EPLVQRDDDKEETVKKRLDVYEAQTKPLITYYGDWARRGA
+[Truncated_Name:13]4PZL_A.pdb   EPLITRTDDNEDTVKQRLSVYHAQTAKLIDFYRNFSSTNT
+                                * *  * ** *^ *  **  *   *  ** ^*         
+                              161        .         .         .         200 
+
+                              201        .         .      227 
+[Truncated_Name:1]1AKE_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:2]6S36_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:3]6RZE_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:4]3HPR_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:5]1E4V_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:6]5EJE_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:7]1E4Y_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:8]3X2S_A.pdb    T--KYAKVDGTKPVAEVRADLEKILG-
+[Truncated_Name:9]6HAP_A.pdb    T--KYAKVDGTKPVCEVRADLEKILG-
+[Truncated_Name:10]6HAM_A.pdb   T--KYAKVDGTKPVCEVRADLEKILG-
+[Truncated_Name:11]4K46_A.pdb   T--QYLKFDGTKAVAEVSAELEKALA-
+[Truncated_Name:12]3GMT_A.pdb   E-------NGLKAPA-----YRKISG-
+[Truncated_Name:13]4PZL_A.pdb   KIPKYIKINGDQAVEKVSQDIFDQLNK
+                                         *                  
+                              201        .         .      227 
+
+Call:
+  pdbaln(files = files, fit = T, exefile = "msa")
+
+Class:
+  pdbs, fasta
+
+Alignment dimensions:
+  13 sequence rows; 227 position columns (204 non-gap, 23 gap) 
+
++ attr: xyz, resno, b, chain, id, ali, resid, sse, call</code></pre>
+</div>
+</div>
+<p>We will now plot the sequence alignment. Gray areas are aligned residues and white areas are areas that are not aligned. The red bar shows sequence conservation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ids <span class="ot">&lt;-</span> <span class="fu">basename.pdb</span>(pdbs<span class="sc">$</span>id) <span class="co"># create a vector of the PDB codes to use for the axis of our figure</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pdbs, <span class="at">labels=</span>ids) <span class="co"># plot sequence alignment</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="class09_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can use <code>pdb.annotate()</code> to match each structure to its source species.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>anno <span class="ot">&lt;-</span> <span class="fu">pdb.annotate</span>(ids)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(anno<span class="sc">$</span>source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Escherichia coli"                                
+[2] "Escherichia coli K-12"                           
+[3] "Escherichia coli O139:H28 str. E24377A"          
+[4] "Escherichia coli str. K-12 substr. MDS42"        
+[5] "Photobacterium profundum"                        
+[6] "Burkholderia pseudomallei 1710b"                 
+[7] "Francisella tularensis subsp. tularensis SCHU S4"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>anno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       structureId chainId macromoleculeType chainLength experimentalTechnique
+1AKE_A        1AKE       A           Protein         214                 X-ray
+6S36_A        6S36       A           Protein         214                 X-ray
+6RZE_A        6RZE       A           Protein         214                 X-ray
+3HPR_A        3HPR       A           Protein         214                 X-ray
+1E4V_A        1E4V       A           Protein         214                 X-ray
+5EJE_A        5EJE       A           Protein         214                 X-ray
+1E4Y_A        1E4Y       A           Protein         214                 X-ray
+3X2S_A        3X2S       A           Protein         214                 X-ray
+6HAP_A        6HAP       A           Protein         214                 X-ray
+6HAM_A        6HAM       A           Protein         214                 X-ray
+4K46_A        4K46       A           Protein         214                 X-ray
+3GMT_A        3GMT       A           Protein         230                 X-ray
+4PZL_A        4PZL       A           Protein         242                 X-ray
+       resolution       scopDomain                                        pfam
+1AKE_A       2.00 Adenylate kinase Adenylate kinase, active site lid (ADK_lid)
+6S36_A       1.60             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+6RZE_A       1.69             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+3HPR_A       2.00             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+1E4V_A       1.85 Adenylate kinase Adenylate kinase, active site lid (ADK_lid)
+5EJE_A       1.90             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+1E4Y_A       1.85 Adenylate kinase Adenylate kinase, active site lid (ADK_lid)
+3X2S_A       2.80             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+6HAP_A       2.70             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+6HAM_A       2.55             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+4K46_A       2.01             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+3GMT_A       2.10             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+4PZL_A       2.10             &lt;NA&gt; Adenylate kinase, active site lid (ADK_lid)
+               ligandId
+1AKE_A              AP5
+6S36_A CL (3),NA,MG (2)
+6RZE_A    NA (3),CL (2)
+3HPR_A              AP5
+1E4V_A              AP5
+5EJE_A           AP5,CO
+1E4Y_A              AP5
+3X2S_A   JPY (2),AP5,MG
+6HAP_A              AP5
+6HAM_A              AP5
+4K46_A      ADP,AMP,PO4
+3GMT_A          SO4 (2)
+4PZL_A       CA,FMT,GOL
+                                                                             ligandName
+1AKE_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+6S36_A                                    CHLORIDE ION (3),SODIUM ION,MAGNESIUM ION (2)
+6RZE_A                                                  SODIUM ION (3),CHLORIDE ION (2)
+3HPR_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+1E4V_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+5EJE_A                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE,COBALT (II) ION
+1E4Y_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+3X2S_A N-(pyren-1-ylmethyl)acetamide (2),BIS(ADENOSINE)-5'-PENTAPHOSPHATE,MAGNESIUM ION
+6HAP_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+6HAM_A                                                 BIS(ADENOSINE)-5'-PENTAPHOSPHATE
+4K46_A                   ADENOSINE-5'-DIPHOSPHATE,ADENOSINE MONOPHOSPHATE,PHOSPHATE ION
+3GMT_A                                                                  SULFATE ION (2)
+4PZL_A                                                 CALCIUM ION,FORMIC ACID,GLYCEROL
+                                                 source
+1AKE_A                                 Escherichia coli
+6S36_A                                 Escherichia coli
+6RZE_A                                 Escherichia coli
+3HPR_A                            Escherichia coli K-12
+1E4V_A                                 Escherichia coli
+5EJE_A           Escherichia coli O139:H28 str. E24377A
+1E4Y_A                                 Escherichia coli
+3X2S_A         Escherichia coli str. K-12 substr. MDS42
+6HAP_A           Escherichia coli O139:H28 str. E24377A
+6HAM_A                            Escherichia coli K-12
+4K46_A                         Photobacterium profundum
+3GMT_A                  Burkholderia pseudomallei 1710b
+4PZL_A Francisella tularensis subsp. tularensis SCHU S4
+                                                                                                                                                                     structureTitle
+1AKE_A STRUCTURE OF THE COMPLEX BETWEEN ADENYLATE KINASE FROM ESCHERICHIA COLI AND THE INHIBITOR AP5A REFINED AT 1.9 ANGSTROMS RESOLUTION: A MODEL FOR A CATALYTIC TRANSITION STATE
+6S36_A                                                                                                                   Crystal structure of E. coli Adenylate kinase R119K mutant
+6RZE_A                                                                                                                   Crystal structure of E. coli Adenylate kinase R119A mutant
+3HPR_A                                                                                               Crystal structure of V148G adenylate kinase from E. coli, in complex with Ap5A
+1E4V_A                                                                                                       Mutant G10V of adenylate kinase from E. coli, modified in the Gly-loop
+5EJE_A                                                                                  Crystal structure of E. coli Adenylate kinase G56C/T163C double mutant in complex with Ap5a
+1E4Y_A                                                                                                        Mutant P9L of adenylate kinase from E. coli, modified in the Gly-loop
+3X2S_A                                                                                                                      Crystal structure of pyrene-conjugated adenylate kinase
+6HAP_A                                                                                                                                                             Adenylate kinase
+6HAM_A                                                                                                                                                             Adenylate kinase
+4K46_A                                                                                                          Crystal Structure of Adenylate Kinase from Photobacterium profundum
+3GMT_A                                                                                                         Crystal structure of adenylate kinase from burkholderia pseudomallei
+4PZL_A                                                                              The crystal structure of adenylate kinase from Francisella tularensis subsp. tularensis SCHU S4
+                                                     citation rObserved   rFree
+1AKE_A                 Muller, C.W., et al. J Mol Biol (1992)   0.19600      NA
+6S36_A                  Rogne, P., et al. Biochemistry (2019)   0.16320 0.23560
+6RZE_A                  Rogne, P., et al. Biochemistry (2019)   0.18650 0.23500
+3HPR_A  Schrank, T.P., et al. Proc Natl Acad Sci U S A (2009)   0.21000 0.24320
+1E4V_A                   Muller, C.W., et al. Proteins (1993)   0.19600      NA
+5EJE_A  Kovermann, M., et al. Proc Natl Acad Sci U S A (2017)   0.18890 0.23580
+1E4Y_A                   Muller, C.W., et al. Proteins (1993)   0.17800      NA
+3X2S_A                Fujii, A., et al. Bioconjug Chem (2015)   0.20700 0.25600
+6HAP_A               Kantaev, R., et al. J Phys Chem B (2018)   0.22630 0.27760
+6HAM_A               Kantaev, R., et al. J Phys Chem B (2018)   0.20511 0.24325
+4K46_A                    Cho, Y.-J., et al. To be published    0.17000 0.22290
+3GMT_A Buchko, G.W., et al. Biochem Biophys Res Commun (2010)   0.23800 0.29500
+4PZL_A                       Tan, K., et al. To be published    0.19360 0.23680
+         rWork spaceGroup
+1AKE_A 0.19600  P 21 2 21
+6S36_A 0.15940    C 1 2 1
+6RZE_A 0.18190    C 1 2 1
+3HPR_A 0.20620  P 21 21 2
+1E4V_A 0.19600  P 21 2 21
+5EJE_A 0.18630  P 21 2 21
+1E4Y_A 0.17800   P 1 21 1
+3X2S_A 0.20700 P 21 21 21
+6HAP_A 0.22370    I 2 2 2
+6HAM_A 0.20311       P 43
+4K46_A 0.16730 P 21 21 21
+3GMT_A 0.23500   P 1 21 1
+4PZL_A 0.19130       P 32</code></pre>
+</div>
+</div>
+</section>
+<section id="jump-to-pca" class="level1">
+<h1>Jump to PCA</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>pc.xray <span class="ot">&lt;-</span> <span class="fu">pca</span>(pdbs)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc.xray)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="class09_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can use the <code>rmsd()</code> function to calculate the pairwise RMSD (root mean square deviation) values. This lets us do clustering analysis based on the pairwise structural deviation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>rd <span class="ot">&lt;-</span> <span class="fu">rmsd</span>(pdbs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in rmsd(pdbs): No indices provided, using the 204 non NA positions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>hc.rd <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(rd))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>grps.rd <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.rd, <span class="at">k=</span><span class="dv">3</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pc.xray, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"grey50"</span>, <span class="at">bg=</span>grps.rd, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="class09_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Each dot in this plot represents a single PDB structure.</p>
+</section>
+<section id="further-visualization" class="level1">
+<h1>Further Visualization</h1>
+<p>We can visualize along PC1 to see major structural variations in the protein:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize first principal component</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>pc1 <span class="ot">&lt;-</span> <span class="fu">mktrj</span>(pc.xray, <span class="at">pc=</span><span class="dv">1</span>, <span class="at">file=</span><span class="st">"pc_1.pdb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can open this file in Mole* to see the animation.</p>
+<p>We can also plot our PCA results with ggplot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PC1=</span>pc.xray<span class="sc">$</span>z[,<span class="dv">1</span>],</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">PC2=</span>pc.xray<span class="sc">$</span>z[,<span class="dv">2</span>],</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col=</span><span class="fu">as.factor</span>(grps.rd),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ids=</span>ids)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(PC1, PC2, <span class="at">col=</span>col, <span class="at">label=</span>ids) <span class="sc">+</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="at">max.overlaps =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="class09_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

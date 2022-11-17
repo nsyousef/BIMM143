@@ -1,0 +1,137 @@
+---
+title: "Class 5: Data Visualization with GGPLOT"
+author: "Nicholas Yousefi"
+format: pdf
+---
+
+# Our first ggplot
+
+To use the ggplot2 package I first need to have it installed on my computer.
+
+To install any package we use the `install.packages()` command.
+
+(I already did this when I saw the videos before this class, but it is commented out in the code below).
+
+Now, can I use it???
+
+No! You first must run `library(ggplot2)` every time you want to use it. (It is sort of like import statements in Python; you must run it every time you want to use ggplot).
+
+```{r}
+# install.packages("ggplot2")
+library(ggplot2)
+ggplot() # this function alone creates a blank canvas
+```
+
+We will be using the following built-in data to make our graphs:
+
+```{r}
+mpg
+```
+
+Let's plot displacement (displ) vs. highway miles per gallon (hwy):
+
+All `ggplot()` graphs are made in the same way: - data + aes + geoms
+
+```{r}
+ggplot(data=mpg) + 
+  aes(x=displ, y=hwy) +
+  geom_point()
+```
+
+I can add more layers:
+
+```{r}
+ggplot(data=mpg) + 
+  aes(x=displ, y=hwy) +
+  geom_point() +
+  geom_smooth(se=FALSE, method=lm)
+```
+
+# Plot of gene expression data
+
+First read the data from online.
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes)
+```
+
+> Q. How many genes are in this dataset?
+
+```{r}
+nrow(genes)
+```
+
+What are the colnames?
+
+```{r}
+colnames(genes)
+```
+
+A first version plot of this data Condition1 vs. Condition2:
+
+```{r}
+ggplot(data=genes) + 
+  aes(x=Condition1, y=Condition2) + 
+  geom_point()
+```
+
+Adding Color:
+
+```{r}
+p <- ggplot(data=genes) + 
+  aes(x=Condition1, y=Condition2, col=State) + 
+  geom_point()
+p
+```
+
+Changing the color:
+
+```{r}
+p <- p + scale_color_manual(values=c("blue", "gray", "red"))
+p
+```
+
+> Q. How many genes are up regulated and down regulated?
+
+```{r}
+sum(genes$State == "up") # Number of up-regulated genes
+sum(genes$State == "down") # Number of down-regulated genes
+
+table(genes$State) # A faster way to tell you # of up/down regulated genes
+```
+
+The Table function counts up the number of appearances of each item in a vector:
+
+```{r}
+table(c("bimm143", "help", "me", "bimm143"))
+```
+
+Now, let's make the graph have a nice title, axes, etc.
+
+```{r}
+p <- p + labs(title="Gene Expression Changes Upon Drug Treatment",
+         x="Control (no drug)",
+         y="Drug Treatment",
+         )
+p
+```
+
+What if you add argument to `geom_plot(col="blue")`?
+
+```{r}
+ggplot(data=genes) + 
+  aes(x=Condition1, y=Condition2, col=State) + 
+  geom_point(col="blue")
+```
+
+That's not what we want! Whatever you do in the `geom` layer is applied to every point equally.
+
+You can also set the transparency by putting arguments into `geom_point()`.
+
+```{r}
+ggplot(data=genes) + 
+  aes(x=Condition1, y=Condition2, col=State) + 
+  geom_point(alpha=0.35)
+```
