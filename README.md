@@ -1,3 +1,3 @@
 # BIMM143
-UCSD Bioinformatics Lab Work Fall 2022!
+UC San Diego Bioinformatics Lab Work Fall 2022!
 
