@@ -1,0 +1,90 @@
+---
+title: "Class 11 Lab Session"
+author: "Nicholas Yousefi"
+format: pdf
+---
+
+# Section 1. Proportion of G/G in a population
+
+Downloaded a CSV file from Ensemble <https://uswest.ensembl.org/Homo_sapiens/Variation/Sample?db=core;r=17:39863622-39954623;v=rs8067378;vdb=variation;vf=105535077#373531_tablePanel>
+
+Here we read this CSV file
+
+```{r}
+mxl <- read.csv("373531-SampleGenotypes-Homo_sapiens_Variation_Sample_rs8067378.csv")
+head(mxl)
+```
+
+```{r}
+table(mxl$Genotype..forward.strand.)
+```
+
+```{r}
+table(mxl$Genotype..forward.strand.) / nrow(mxl) * 100
+```
+
+Now let's look at a different population. I picked the GBR.
+
+```{r}
+gbr <- read.csv("373522-SampleGenotypes-Homo_sapiens_Variation_Sample_rs8067378.csv")
+```
+
+Find proportion of G|G
+
+```{r}
+round(table(gbr$Genotype..forward.strand.) / nrow(gbr) * 100, 2)
+```
+
+This variant that is associated with childhood asthma is more frequent in the GBR population than the MXL population.
+
+Lets now dig into this further.
+
+# Section 4: Population Scale Analysis
+
+One sample is obviously not enough to know what is happening in a population. You are interested in assessing genetic differences on a population scale. 
+
+> Q13: Read this file into R and determine the sample size for each genotype and their corresponding median expression levels for each of these genotypes.
+
+How many samples do we have? (**read file into R**)
+```{r}
+expr <- read.table("rs8067378_ENSG00000172057.6.txt")
+head(expr)
+```
+
+```{r}
+nrow(expr)
+```
+
+**Sample size for each genotype:**
+
+```{r}
+table(expr$geno)
+```
+
+**Median Expression Level for each genotype:**
+
+```{r}
+findMedianExp <- function(genotype) {
+  expression <- expr$exp[expr$geno == genotype]
+  return(median(expression))
+}
+findMedianExp("A/A")
+findMedianExp("A/G")
+findMedianExp("G/G")
+```
+
+> Q14: Generate a boxplot with a box per genotype, what could you infer from the relative expression value between A/A and G/G displayed in this plot? Does the SNP effect the expression of ORMDL3?
+
+```{r}
+library(ggplot2)
+```
+
+Lets make a boxplot.
+
+```{r}
+ggplot(expr) +
+  aes(geno, exp, fill=geno) +
+  geom_boxplot(notch=T)
+```
+
+It looks like people with the G/G genotype express ORMDL3 less than people with the A/A genotype. This SNP does appear to affect the expression of ORMDL3. 
