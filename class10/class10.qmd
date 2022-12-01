@@ -1,7 +1,7 @@
 ---
 title: "Class 10: Halloween Candy Mini Project"
 author: "Nicholas Yousefi"
-format: pdf
+format: gfm
 always_allow_html: true
 ---
 
