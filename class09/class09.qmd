@@ -1,7 +1,7 @@
 ---
 title: "Class 09: Structural Bioinformatics 1"
 author: "Nicholas Yousefi"
-format: html
+format: gfm
 ---
 
 ## The RCSB Protein Data Bank (PDB)
