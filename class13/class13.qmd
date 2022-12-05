@@ -1,7 +1,7 @@
 ---
 title: "Class 13: RNASeq Mini Project"
 author: "Nicholas Yousefi"
-format: pdf
+format: gfm
 ---
 
 The data for for hands-on session comes from GEO entry: GSE37704, which is associated with the following publication:
