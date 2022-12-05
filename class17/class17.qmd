@@ -1,7 +1,7 @@
 ---
 title: "Class 17: Vaccination Rate Mini Project"
 author: "Nicholas Yousefi"
-format: pdf
+format: gfm
 ---
 
 # Getting Started
